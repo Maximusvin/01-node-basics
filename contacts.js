@@ -1,6 +1,7 @@
 const { group } = require("console");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const contactsPath = path.join(__dirname, "./db/contacts.json");
 
@@ -58,7 +59,26 @@ function removeContact(contactId) {
 }
 
 function addContact(name, email, phone) {
-  // ...твой код
+  fs.readFile(contactsPath, "utf-8", (error, data) => {
+    if (error) throw error;
+    const contactList = JSON.parse(data);
+
+    const newContact = {
+      id: crypto.randomBytes(16).toString("hex"),
+      name,
+      email,
+      phone,
+    };
+
+    contactList.push(newContact);
+
+    console.log("Contacts added successfully! New lists of contacts: ");
+    console.table(contactList);
+
+    fs.writeFile(contactsPath, JSON.stringify(contactList), (error) => {
+      if (error) throw error;
+    });
+  });
 }
 
-removeContact(343);
+addContact("Max", "maximusvin@gmail.com", "(545) 654-4356");
