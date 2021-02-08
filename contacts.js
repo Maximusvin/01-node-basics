@@ -81,4 +81,9 @@ function addContact(name, email, phone) {
   });
 }
 
-addContact("Max", "maximusvin@gmail.com", "(545) 654-4356");
+module.exports = {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+};
